@@ -1,5 +1,5 @@
-import { EventEmitter } from 'events'
-import { date } from 'joi'
+import {EventEmitter} from 'events'
+import {date} from 'joi'
 import {
   LoggerDependencies,
   LoggingHandlerInterface,
@@ -18,15 +18,17 @@ const LogHandler: LoggingHandlerInterface = function(Dependencies, Config) {
     Dependencies.Joi.validate(Dependencies, DependenciesSchema)
   ) {
     if (!Config) throw new Error('LogHandler: Config not available')
-    if (Dependencies.Joi.validate(Config, LogConfigSchema).error) throw new Error('LogHandler: Config not valid')
+    if (Dependencies.Joi.validate(Config, LogConfigSchema).error) {
+      throw new Error('LogHandler: Config not valid')
+    }
   } else {
     throw new Error('LogHandler: Dependencies are missing or not complete')
   }
 
   const LogEmitter = new class LogEmitterClass extends Events {}()
   const LoggerDependencies: LoggerDependencies = {
-    Joi: Dependencies.Joi,
     LogEmitter,
+    Joi: Dependencies.Joi,
     _: Dependencies._,
   }
   const LoggerClass = new Dependencies.Logger(LoggerDependencies, Config)
@@ -37,16 +39,17 @@ const LogHandler: LoggingHandlerInterface = function(Dependencies, Config) {
       configurable: false,
       enumerable: false,
       get() {
-        return function(msg: Error | string, data?: { [key: string]: any }, ...args: any[]): void {
-          // tslint:disable-line:no-any
-          data = typeof data === 'undefined' ? {} : data
-          if (typeof msg === 'string') msg = new Error(msg)
+        return function(msg: Error | string, data?: {[key: string]: any}, ...args: any[]): void {
+          const logitem = {
+            data: typeof data === 'undefined' ? {} : data,
+            msg: typeof msg === 'string' ? new Error(msg) : msg,
+          }
 
           const LogObject: LogObjectInterface = {
             args,
             createdAt: new Date(),
-            data,
-            error: msg,
+            data: logitem.data,
+            error: logitem.msg,
             level: LoggerClass.LogLevels.indexOf(prop),
           }
           LogEmitter.emit('register', LogObject)

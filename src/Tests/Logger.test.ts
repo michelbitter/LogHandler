@@ -3,7 +3,7 @@ import * as faker from 'faker'
 import * as joi from 'joi'
 import * as _ from 'lodash'
 import * as sinon from 'sinon'
-import { ReportersInterface } from '../Interfaces/LoggingInterfaces'
+import {ReportersInterface} from '../Interfaces/LoggingInterfaces'
 
 const assert = chai.assert
 suite('Test Logger Functionality', () => {
@@ -52,11 +52,11 @@ suite('Test Logger Functionality', () => {
       assert.throws(() => new Logger({}, undefined), 'ApiStart.Logger: Dependencies are missing or not complete')
     })
 
-    test('should throw Error when Logging Config isn\'t avaialble', () => {
+    test("should throw Error when Logging Config isn't avaialble", () => {
       assert.throws(() => new Logger(Dependencies, undefined), 'ApiStart.Logger: Config not available')
     })
 
-    test('should throw error when Config isn\'t valid', () => {
+    test("should throw error when Config isn't valid", () => {
       Config.silent = 'uyfgdjhd'
       assert.throws(() => new Logger(Dependencies, Config), 'ApiStart.Logger: Config not valid')
     })
@@ -91,8 +91,8 @@ suite('Test Logger Functionality', () => {
 
       const silentOptions = [true, false, undefined]
 
-      for (let minimallvl = 0; minimallvl < ErrorLevels.length; minimallvl++) {
-        for (let i = 0; i < 2; i++) {
+      for (const minimallvl = 0; minimallvl < ErrorLevels.length; minimallvl + 1) {
+        for (const i = 0; i < 2; i + 1) {
           Config.reporting.silent = silentOptions[i]
           Config.reporting.minimalLevel2Report = minimallvl
           LoggerInstance = new Logger(Dependencies, Config)
@@ -101,21 +101,21 @@ suite('Test Logger Functionality', () => {
             LogObject.level = severityLvl
             LoggerInstance.Call(LogObject)
 
-            if (silentOptions[i] !== true && severityLvl <= minimallvl)
+            if (silentOptions[i] !== true && severityLvl <= minimallvl) {
               assert.isTrue(
                 stub.calledOnce,
                 `Didn't add a log event on lvl "${keyword}" while it was required. Minimal log level was "${
                   ErrorLevels[minimallvl]
                 }" and silent was "${silentOptions[i]}"`,
               )
-            else
+            } else {
               assert.isFalse(
                 stub.calledOnce,
                 `Did add a log event on lvl "${keyword}" while this wasn't allowed. Minimal log level was "${
                   ErrorLevels[minimallvl]
                 }" and silent was "${silentOptions[i]}"`,
               )
-
+            }
             stub.reset()
           })
         }
@@ -149,24 +149,24 @@ suite('Test Logger Functionality', () => {
 
       LoggerInstance.Call(LogObject)
 
-      assert.isTrue(stub.calledOnce, 'Didn\'t add a log event on LogEmitter')
+      assert.isTrue(stub.calledOnce, "Didn't add a log event on LogEmitter")
       const info = stub.firstCall.args[0][0]
-      assert.isObject(info, 'Log info isn\'t a object')
-      assert.equal(info.level, LogObject.level, 'Log level doesn\'t match expectations')
-      assert.instanceOf(info.error, Error, 'Log error doesn\'t match expectations')
-      assert.deepEqual(info.error, LogObject.error, 'Log errormsg doesn\'t match expectations')
-      assert.deepEqual(info.data, LogObject.data, 'Log data doesn\'t match expectations')
-      assert.deepEqual(info.args, LogObject.args, 'Log args doesn\'t match expectations')
-      assert.deepEqual(info.createdAt, LogObject.createdAt, 'Log creationDate doesn\'t match expectations')
+      assert.isObject(info, "Log info isn't a object")
+      assert.equal(info.level, LogObject.level, "Log level doesn't match expectations")
+      assert.instanceOf(info.error, Error, "Log error doesn't match expectations")
+      assert.deepEqual(info.error, LogObject.error, "Log errormsg doesn't match expectations")
+      assert.deepEqual(info.data, LogObject.data, "Log data doesn't match expectations")
+      assert.deepEqual(info.args, LogObject.args, "Log args doesn't match expectations")
+      assert.deepEqual(info.createdAt, LogObject.createdAt, "Log creationDate doesn't match expectations")
     })
 
     test('Make sure that reporters got noticed and has correct LogObject', () => {
       const tries = Math.round(Math.random() * 5)
-      for (let i = 0; i <= tries; i++) {
+      for (const i = 0; i <= tries; i + 1) {
         const reporters: any[] = [] // tslint:disable-line:no-any
         const NumbReporters = Math.round(Math.random() * 5)
 
-        for (let x = 0; x <= NumbReporters; x++) {
+        for (const x = 0; x <= NumbReporters; x + 1) {
           const reporter = require('./testFiles/Reporter')()
           reporters.push(reporter)
 
@@ -179,15 +179,15 @@ suite('Test Logger Functionality', () => {
         reporters.forEach(reporter => {
           const stub = reporter.Stub.Log
 
-          assert.isTrue(stub.calledOnce, 'Caller() didn\'t call Reporter')
+          assert.isTrue(stub.calledOnce, "Caller() didn't call Reporter")
           const info = stub.firstCall.args[0][0]
-          assert.isObject(info, 'Log info isn\'t a object')
-          assert.equal(info.level, LogObject.level, 'Log level doesn\'t match expectations')
-          assert.instanceOf(info.error, Error, 'Log error doesn\'t match expectations')
-          assert.deepEqual(info.error, LogObject.error, 'Log errormsg doesn\'t match expectations')
-          assert.deepEqual(info.data, LogObject.data, 'Log data doesn\'t match expectations')
-          assert.deepEqual(info.args, LogObject.args, 'Log args doesn\'t match expectations')
-          assert.deepEqual(info.createdAt, LogObject.createdAt, 'Log creationDate doesn\'t match expectations')
+          assert.isObject(info, "Log info isn't a object")
+          assert.equal(info.level, LogObject.level, "Log level doesn't match expectations")
+          assert.instanceOf(info.error, Error, "Log error doesn't match expectations")
+          assert.deepEqual(info.error, LogObject.error, "Log errormsg doesn't match expectations")
+          assert.deepEqual(info.data, LogObject.data, "Log data doesn't match expectations")
+          assert.deepEqual(info.args, LogObject.args, "Log args doesn't match expectations")
+          assert.deepEqual(info.createdAt, LogObject.createdAt, "Log creationDate doesn't match expectations")
         })
         Config.reporters = []
       }
@@ -218,28 +218,28 @@ suite('Test Logger Functionality', () => {
 
         LoggerInstance.Call(LogObject)
         setTimeout(() => {
-          assert.isTrue(stub.calledTwice, 'log event wasn\'t send')
+          assert.isTrue(stub.calledTwice, "log event wasn't send")
 
           const info = stub.secondCall.args[0][0]
-          assert.isObject(info, 'Log info isn\'t a object')
-          assert.equal(info.level, ErrorLevels.indexOf('err'), 'Log level doesn\'t match expectations')
-          assert.instanceOf(info.error, Error, 'Log error doesn\'t match expectations')
+          assert.isObject(info, "Log info isn't a object")
+          assert.equal(info.level, ErrorLevels.indexOf('err'), "Log level doesn't match expectations")
+          assert.instanceOf(info.error, Error, "Log error doesn't match expectations")
           assert.deepEqual(
             info.error.message,
             `Reporter "Test Reporter", rejected report promise`,
-            'Log errormsg doesn\'t match expectations',
+            "Log errormsg doesn't match expectations",
           )
           assert.deepEqual(
             info.data,
             {
               error: TestError,
             },
-            'Log data doesn\'t match expectations',
+            "Log data doesn't match expectations",
           )
-          assert.deepEqual(info.args, [], 'Log args doesn\'t match expectations')
-          assert.instanceOf(info.createdAt, Date, 'Log creationDate doesn\'t match expectations')
+          assert.deepEqual(info.args, [], "Log args doesn't match expectations")
+          assert.instanceOf(info.createdAt, Date, "Log creationDate doesn't match expectations")
           done()
-        },         10)
+        }, 10)
       })
 
       test('By not sending this error to reporter that caused it.', done => {
@@ -248,7 +248,7 @@ suite('Test Logger Functionality', () => {
           assert.isTrue(reporter1.Stub.Log.calledTwice)
           assert.isFalse(reporter2.Stub.Log.calledTwice)
           done()
-        },         10)
+        }, 10)
       })
     })
 
@@ -269,18 +269,18 @@ suite('Test Logger Functionality', () => {
 
         LoggerInstance.Call(LogObject)
         setTimeout(() => {
-          assert.isTrue(stub.calledTwice, 'log event wasn\'t send')
+          assert.isTrue(stub.calledTwice, "log event wasn't send")
 
           const info = stub.secondCall.args[0][0]
-          assert.isObject(info, 'Log info isn\'t a object')
-          assert.equal(info.level, ErrorLevels.indexOf('warning'), 'Log level doesn\'t match expectations')
-          assert.instanceOf(info.error, Error, 'Log error doesn\'t match expectations')
+          assert.isObject(info, "Log info isn't a object")
+          assert.equal(info.level, ErrorLevels.indexOf('warning'), "Log level doesn't match expectations")
+          assert.instanceOf(info.error, Error, "Log error doesn't match expectations")
           assert.deepEqual(
             info.error.message,
             `REPORTER TIMEOUT: Reporter "${reporter2Instance.Name}" didn't response within "${
               reporter2Instance.TimeOut
             }" miliseconds. `,
-            'Log errormsg doesn\'t match expectations',
+            "Log errormsg doesn't match expectations",
           )
           assert.deepEqual(
             info.data,
@@ -288,12 +288,12 @@ suite('Test Logger Functionality', () => {
               error: LogObject.error,
               timeoutTime: new reporter2.Instance().TimeOut,
             },
-            'Log data doesn\'t match expectations',
+            "Log data doesn't match expectations",
           )
-          assert.deepEqual(info.args, [], 'Log args doesn\'t match expectations')
-          assert.instanceOf(info.createdAt, Date, 'Log creationDate doesn\'t match expectations')
+          assert.deepEqual(info.args, [], "Log args doesn't match expectations")
+          assert.instanceOf(info.createdAt, Date, "Log creationDate doesn't match expectations")
           done()
-        },         20)
+        }, 20)
       })
 
       test('By not sending this warning to the reporter that caused it.', done => {
@@ -310,7 +310,7 @@ suite('Test Logger Functionality', () => {
           assert.isTrue(reporter1.Stub.Log.calledTwice)
           assert.isFalse(reporter2.Stub.Log.calledTwice)
           done()
-        },         20)
+        }, 20)
       })
     })
   })

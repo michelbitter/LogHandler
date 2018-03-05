@@ -1,32 +1,44 @@
-import { LoggerClass, LoggerDependencies, LoggerInterface, LoggingConfig, LogObjectInterface, ReportersInterface } from './Interfaces/LoggingInterfaces'
+import {
+  LoggerClass,
+  LoggerDependencies,
+  LoggerInterface,
+  LoggingConfig,
+  LogObjectInterface,
+  ReportersInterface,
+} from './Interfaces/LoggingInterfaces'
 
 const ConfigSchema = require('./Schemas/Config')
 const DependenciesSchema = require('./Schemas/Dependencies')
 
 const Logger: LoggerClass = class implements LoggerInterface {
-
   public readonly LogLevels = ['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug']
   private readonly TIMEOUT = Symbol('TIMEOUT')
 
   constructor(private Dependencies: LoggerDependencies, private Config: LoggingConfig) {
-    if (typeof Dependencies.Joi === 'object' && typeof Dependencies.Joi.validate === 'function' &&
-    Dependencies.Joi.validate(Dependencies, DependenciesSchema)) {
-      if (!Config)
+    if (
+      typeof Dependencies.Joi === 'object' &&
+      typeof Dependencies.Joi.validate === 'function' &&
+      Dependencies.Joi.validate(Dependencies, DependenciesSchema)
+    ) {
+      if (!Config) {
         throw new Error('ApiStart.Logger: Config not available')
-      if (Dependencies.Joi.validate(Config, ConfigSchema).error)
-
+      }
+      if (Dependencies.Joi.validate(Config, ConfigSchema).error) {
         throw new Error('ApiStart.Logger: Config not valid')
-    }
-    else {
+      }
+    } else {
       throw new Error('ApiStart.Logger: Dependencies are missing or not complete')
     }
   }
 
   public Call(LogObject: LogObjectInterface) {
-
-    this.Config.reporting = (typeof this.Config.reporting === 'undefined') ? {} : this.Config.reporting
-    this.Config.reporting.silent = (typeof this.Config.reporting.silent === 'undefined') ? false : this.Config.reporting.silent
-    this.Config.reporting.minimalLevel2Report = (typeof this.Config.reporting.minimalLevel2Report === 'undefined') ? this.LogLevels.indexOf('debug') : this.Config.reporting.minimalLevel2Report
+    this.Config.reporting = typeof this.Config.reporting === 'undefined' ? {} : this.Config.reporting
+    this.Config.reporting.silent =
+      typeof this.Config.reporting.silent === 'undefined' ? false : this.Config.reporting.silent
+    this.Config.reporting.minimalLevel2Report =
+      typeof this.Config.reporting.minimalLevel2Report === 'undefined'
+        ? this.LogLevels.indexOf('debug')
+        : this.Config.reporting.minimalLevel2Report
 
     if (!this.Config.reporting.silent && LogObject.level <= this.Config.reporting.minimalLevel2Report) {
       this.Dependencies.LogEmitter.emit('log', LogObject)
@@ -38,12 +50,11 @@ const Logger: LoggerClass = class implements LoggerInterface {
 
       Promise.all(activeReportesList)
     }
-
   }
 
   private async report(LogObject: LogObjectInterface, reporterIndex: number) {
     const reporter = this.Config.reporters[reporterIndex]
-    const timeout = (typeof reporter.TimeOut === 'number') ? reporter.TimeOut : 2500
+    const timeout = typeof reporter.TimeOut === 'number' ? reporter.TimeOut : 2500
     try {
       const race = await Promise.race([reporter.Log(LogObject), this.timer(timeout)])
       if (typeof race === 'symbol' && race === this.TIMEOUT) {
@@ -54,16 +65,16 @@ const Logger: LoggerClass = class implements LoggerInterface {
           data: {
             error: LogObject.error,
             timeoutTime: timeout,
-
           },
-          error: new Error(`REPORTER TIMEOUT: Reporter "${reporter.Name}" didn't response within "${timeout}" miliseconds. `),
+          error: new Error(
+            `REPORTER TIMEOUT: Reporter "${reporter.Name}" didn't response within "${timeout}" miliseconds. `,
+          ),
           level: this.LogLevels.indexOf('warning'),
         }
 
-        await this.LogOnNewInstance(reporterError, reporterIndex)
+        await this.logOnNewInstance(reporterError, reporterIndex)
       }
-    }
-    catch (err) {
+    } catch (err) {
       // Reporter THROWS ERROR
       const reporterError: LogObjectInterface = {
         args: [],
@@ -74,22 +85,21 @@ const Logger: LoggerClass = class implements LoggerInterface {
         error: new Error(`Reporter "${reporter.Name}", rejected report promise`),
         level: this.LogLevels.indexOf('err'),
       }
-      await this.LogOnNewInstance(reporterError, reporterIndex)
+      await this.logOnNewInstance(reporterError, reporterIndex)
     }
 
     return
-
   }
 
   private timer(timeout: number) {
     return new Promise((res, rej) => {
       setTimeout(() => {
         res(this.TIMEOUT)
-      },         timeout)
+      }, timeout)
     })
   }
 
-  private async LogOnNewInstance(LogObject: LogObjectInterface, ReporterWithProblemsIndex: number) {
+  private async logOnNewInstance(LogObject: LogObjectInterface, ReporterWithProblemsIndex: number) {
     const newConfig = this.Dependencies._.cloneDeep(this.Config)
     newConfig.reporters.splice(ReporterWithProblemsIndex, 1)
     const self = new Logger(this.Dependencies, newConfig)
