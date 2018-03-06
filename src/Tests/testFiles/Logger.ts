@@ -1,35 +1,26 @@
 import * as sinon from 'sinon'
 
 const mocks = {
-  Call: sinon.stub(),
+  call: sinon.stub(),
   constructor: sinon.stub(),
 }
 
-const restore = function() {
+const reset = function() {
   mocks.constructor.reset()
-  mocks.Call.resetHistory()
+  mocks.call.resetHistory()
 }
 
 const instance = class {
-  public const readonly LogLevels = [
-    'emerg',
-    'alert',
-    'crit',
-    'err',
-    'warning',
-    'notice',
-    'info',
-    'debug',
-  ]
+  public readonly LogLevels = ['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug']
 
   constructor(...args) {
     mocks.constructor(args)
   }
 
-  public Call(...args) {
-    mocks.Call(args)
+  public call(...args) {
+    mocks.call(args)
     return
   }
 }
 
-module.exports = {mocks, instance, restore}
+module.exports = {mocks, instance, reset}

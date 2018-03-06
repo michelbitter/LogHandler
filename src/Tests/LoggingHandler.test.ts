@@ -48,18 +48,18 @@ suite('Test LoggingHandler Functionality', () => {
   })
 
   afterEach(() => {
-    mocks.logger.restore()
+    mocks.logger.reset()
   })
 
   test('should throw Error when not all Dependencies are available', () => {
     assert.throws(() => LoggingHandler({}, undefined), 'LogHandler: Dependencies are missing or not complete')
   })
 
-  test('should throw Error when Logging Config isn\'t avaialble', () => {
+  test("should throw Error when Logging Config isn't avaialble", () => {
     assert.throws(() => LoggingHandler(Dependencies, undefined), 'LogHandler: Config not available')
   })
 
-  test('should throw error when Config isn\'t valid', () => {
+  test("should throw error when Config isn't valid", () => {
     Config.silent = 'uyfgdjhd'
     assert.throws(() => LoggingHandler(Dependencies, Config), 'LogHandler: Config not valid')
   })
@@ -134,13 +134,13 @@ suite('Test LoggingHandler Functionality', () => {
 
       Functions.forEach(method => {
         const LogMsg = new Error(faker.lorem.sentence())
-        Logger[method](LogMsg, { data: true }, 4, 12, 13)
+        Logger[method](LogMsg, {data: true}, 4, 12, 13)
         const info = stub.firstCall.args[0][0]
         assert.isObject(info)
         assert.equal(info.level, ErrorLevels[method])
         assert.instanceOf(info.error, Error)
         assert.equal(info.error.message, LogMsg.message)
-        assert.deepEqual(info.data, { data: true })
+        assert.deepEqual(info.data, {data: true})
         assert.deepEqual(info.args, [4, 12, 13])
         assert.instanceOf(info.createdAt, Date)
 
@@ -156,13 +156,13 @@ suite('Test LoggingHandler Functionality', () => {
 
       Functions.forEach(method => {
         const LogMsg = faker.lorem.sentence()
-        Logger[method](LogMsg, { data: true }, 4, 12, 13)
+        Logger[method](LogMsg, {data: true}, 4, 12, 13)
         const info = stub.firstCall.args[0][0]
         assert.isObject(info)
         assert.equal(info.level, ErrorLevels[method])
         assert.instanceOf(info.error, Error)
         assert.equal(info.error.message, LogMsg)
-        assert.deepEqual(info.data, { data: true })
+        assert.deepEqual(info.data, {data: true})
         assert.deepEqual(info.args, [4, 12, 13])
         assert.instanceOf(info.createdAt, Date)
 
@@ -173,27 +173,27 @@ suite('Test LoggingHandler Functionality', () => {
     test('Logger is called Once when Log Message was send', () => {
       Functions.forEach(method => {
         const LogMsg = faker.lorem.sentence()
-        Logger[method](LogMsg, { data: true }, 4, 12, 13)
-        assert.isTrue(mocks.logger.mocks.Call.calledOnce)
-        const info = mocks.logger.mocks.Call.args[0][0][0]
+        Logger[method](LogMsg, {data: true}, 4, 12, 13)
+        assert.isTrue(mocks.logger.mocks.call.calledOnce)
+        const info = mocks.logger.mocks.call.args[0][0][0]
 
         assert.isObject(info)
         assert.equal(info.level, ErrorLevels[method])
         assert.instanceOf(info.error, Error)
         assert.equal(info.error.message, LogMsg)
-        assert.deepEqual(info.data, { data: true })
+        assert.deepEqual(info.data, {data: true})
         assert.deepEqual(info.args, [4, 12, 13])
         assert.instanceOf(info.createdAt, Date)
-        mocks.logger.restore()
+        mocks.logger.reset()
       })
     })
 
     test('Logger is called with right LogObject when Log Message was send', () => {
       Functions.forEach(method => {
         const LogMsg = faker.lorem.sentence()
-        Logger[method](LogMsg, { data: true }, 4, 12, 13)
-        assert.isTrue(mocks.logger.mocks.Call.calledOnce)
-        mocks.logger.restore()
+        Logger[method](LogMsg, {data: true}, 4, 12, 13)
+        assert.isTrue(mocks.logger.mocks.call.calledOnce)
+        mocks.logger.reset()
       })
     })
   })

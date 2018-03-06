@@ -18,20 +18,20 @@ const Logger: LoggerClass = class implements LoggerInterface {
     if (
       typeof Dependencies.Joi === 'object' &&
       typeof Dependencies.Joi.validate === 'function' &&
-      Dependencies.Joi.validate(Dependencies, DependenciesSchema)
+      Dependencies.Joi.validate(Dependencies, DependenciesSchema).error
     ) {
       if (!Config) {
-        throw new Error('ApiStart.Logger: Config not available')
+        throw new Error('LogHandler.Logger: Config not available')
       }
       if (Dependencies.Joi.validate(Config, ConfigSchema).error) {
-        throw new Error('ApiStart.Logger: Config not valid')
+        throw new Error('LogHandler.Logger: Config not valid')
       }
     } else {
-      throw new Error('ApiStart.Logger: Dependencies are missing or not complete')
+      throw new Error('LogHandler.Logger: Dependencies are missing or not complete')
     }
   }
 
-  public Call(LogObject: LogObjectInterface) {
+  public call(LogObject: LogObjectInterface) {
     this.Config.reporting = typeof this.Config.reporting === 'undefined' ? {} : this.Config.reporting
     this.Config.reporting.silent =
       typeof this.Config.reporting.silent === 'undefined' ? false : this.Config.reporting.silent
@@ -54,9 +54,9 @@ const Logger: LoggerClass = class implements LoggerInterface {
 
   private async report(LogObject: LogObjectInterface, reporterIndex: number) {
     const reporter = this.Config.reporters[reporterIndex]
-    const timeout = typeof reporter.TimeOut === 'number' ? reporter.TimeOut : 2500
+    const timeout = typeof reporter.timeOut === 'number' ? reporter.timeOut : 2500
     try {
-      const race = await Promise.race([reporter.Log(LogObject), this.timer(timeout)])
+      const race = await Promise.race([reporter.log(LogObject), this.timer(timeout)])
       if (typeof race === 'symbol' && race === this.TIMEOUT) {
         // Reporter THROWS ERROR
         const reporterError: LogObjectInterface = {
@@ -67,7 +67,7 @@ const Logger: LoggerClass = class implements LoggerInterface {
             timeoutTime: timeout,
           },
           error: new Error(
-            `REPORTER TIMEOUT: Reporter "${reporter.Name}" didn't response within "${timeout}" miliseconds. `,
+            `REPORTER TIMEOUT: Reporter "${reporter.name}" didn't response within "${timeout}" miliseconds. `,
           ),
           level: this.LogLevels.indexOf('warning'),
         }
@@ -82,7 +82,7 @@ const Logger: LoggerClass = class implements LoggerInterface {
         data: {
           error: err,
         },
-        error: new Error(`Reporter "${reporter.Name}", rejected report promise`),
+        error: new Error(`Reporter "${reporter.name}", rejected report promise`),
         level: this.LogLevels.indexOf('err'),
       }
       await this.logOnNewInstance(reporterError, reporterIndex)
@@ -103,7 +103,7 @@ const Logger: LoggerClass = class implements LoggerInterface {
     const newConfig = this.Dependencies._.cloneDeep(this.Config)
     newConfig.reporters.splice(ReporterWithProblemsIndex, 1)
     const self = new Logger(this.Dependencies, newConfig)
-    self.Call(LogObject)
+    self.call(LogObject)
     return
   }
 }

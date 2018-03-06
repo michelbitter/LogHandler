@@ -42,23 +42,23 @@ suite('Test Logger Functionality', () => {
 
   afterEach(() => {
     mocks.debug.reset()
-    mocks.logger.restore()
+    mocks.logger.reset()
     mocks.reporters.Reset()
     Dependencies.LogEmitter.removeAllListeners()
   })
 
   suite('Test Constructor', () => {
     test('should throw Error when not all Dependencies are available', () => {
-      assert.throws(() => new Logger({}, undefined), 'ApiStart.Logger: Dependencies are missing or not complete')
+      assert.throws(() => new Logger({}, undefined), 'LogHandler.Logger: Dependencies are missing or not complete')
     })
 
     test("should throw Error when Logging Config isn't avaialble", () => {
-      assert.throws(() => new Logger(Dependencies, undefined), 'ApiStart.Logger: Config not available')
+      assert.throws(() => new Logger(Dependencies, undefined), 'LogHandler.Logger: Config not available')
     })
 
     test("should throw error when Config isn't valid", () => {
       Config.silent = 'uyfgdjhd'
-      assert.throws(() => new Logger(Dependencies, Config), 'ApiStart.Logger: Config not valid')
+      assert.throws(() => new Logger(Dependencies, Config), 'LogHandler.Logger: Config not valid')
     })
 
     test('should return an Logger Instance when Config is valid', () => {
@@ -88,18 +88,17 @@ suite('Test Logger Functionality', () => {
       Dependencies.LogEmitter.on('log', (...args) => {
         stub(args)
       })
-
       const silentOptions = [true, false, undefined]
 
-      for (const minimallvl = 0; minimallvl < ErrorLevels.length; minimallvl + 1) {
-        for (const i = 0; i < 2; i + 1) {
+      for (let minimallvl = 0; minimallvl < ErrorLevels.length; minimallvl += 1) {
+        for (let i = 0; i < 2; i += 1) {
           Config.reporting.silent = silentOptions[i]
           Config.reporting.minimalLevel2Report = minimallvl
           LoggerInstance = new Logger(Dependencies, Config)
 
           ErrorLevels.forEach((keyword, severityLvl) => {
             LogObject.level = severityLvl
-            LoggerInstance.Call(LogObject)
+            LoggerInstance.call(LogObject)
 
             if (silentOptions[i] !== true && severityLvl <= minimallvl) {
               assert.isTrue(
@@ -132,7 +131,7 @@ suite('Test Logger Functionality', () => {
 
       ErrorLevels.forEach((keyword, severityLvl) => {
         LogObject.level = severityLvl
-        LoggerInstance.Call(LogObject)
+        LoggerInstance.call(LogObject)
 
         assert.isTrue(stub.calledOnce, `Didn't add a log event on lvl "${keyword}" while it was required.`)
 
@@ -147,7 +146,7 @@ suite('Test Logger Functionality', () => {
         stub(args)
       })
 
-      LoggerInstance.Call(LogObject)
+      LoggerInstance.call(LogObject)
 
       assert.isTrue(stub.calledOnce, "Didn't add a log event on LogEmitter")
       const info = stub.firstCall.args[0][0]
@@ -162,11 +161,11 @@ suite('Test Logger Functionality', () => {
 
     test('Make sure that reporters got noticed and has correct LogObject', () => {
       const tries = Math.round(Math.random() * 5)
-      for (const i = 0; i <= tries; i + 1) {
+      for (let i = 0; i <= tries; i += 1) {
         const reporters: any[] = [] // tslint:disable-line:no-any
         const NumbReporters = Math.round(Math.random() * 5)
 
-        for (const x = 0; x <= NumbReporters; x + 1) {
+        for (let x = 0; x <= NumbReporters; x += 1) {
           const reporter = require('./testFiles/Reporter')()
           reporters.push(reporter)
 
@@ -174,10 +173,10 @@ suite('Test Logger Functionality', () => {
         }
 
         LoggerInstance = new Logger(Dependencies, Config)
-        LoggerInstance.Call(LogObject)
+        LoggerInstance.call(LogObject)
 
         reporters.forEach(reporter => {
-          const stub = reporter.Stub.Log
+          const stub = reporter.Stub.log
 
           assert.isTrue(stub.calledOnce, "Caller() didn't call Reporter")
           const info = stub.firstCall.args[0][0]
@@ -203,7 +202,7 @@ suite('Test Logger Functionality', () => {
         reporter1 = require('./testFiles/Reporter')()
         reporter2 = require('./testFiles/Reporter')()
 
-        reporter2.Stub.Log.throwsException(TestError)
+        reporter2.Stub.log.throwsException(TestError)
 
         Config.reporters = [new reporter1.Instance(), new reporter2.Instance()]
 
@@ -216,7 +215,7 @@ suite('Test Logger Functionality', () => {
           stub(args)
         })
 
-        LoggerInstance.Call(LogObject)
+        LoggerInstance.call(LogObject)
         setTimeout(() => {
           assert.isTrue(stub.calledTwice, "log event wasn't send")
 
@@ -243,10 +242,10 @@ suite('Test Logger Functionality', () => {
       })
 
       test('By not sending this error to reporter that caused it.', done => {
-        LoggerInstance.Call(LogObject)
+        LoggerInstance.call(LogObject)
         setTimeout(() => {
-          assert.isTrue(reporter1.Stub.Log.calledTwice)
-          assert.isFalse(reporter2.Stub.Log.calledTwice)
+          assert.isTrue(reporter1.Stub.log.calledTwice)
+          assert.isFalse(reporter2.Stub.log.calledTwice)
           done()
         }, 10)
       })
@@ -263,11 +262,9 @@ suite('Test Logger Functionality', () => {
         const reporter2 = require('./testFiles/ReporterTimeOut')()
         const newConfig = _.cloneDeep(Config)
         newConfig.reporters = [new reporter1.Instance(), new reporter2.Instance()]
-
-        const reporter2Instance = new reporter2.Instance()
+        console.log(newConfig.reporters[1].name)
         LoggerInstance = new Logger(Dependencies, newConfig)
-
-        LoggerInstance.Call(LogObject)
+        LoggerInstance.call(LogObject)
         setTimeout(() => {
           assert.isTrue(stub.calledTwice, "log event wasn't send")
 
@@ -277,8 +274,8 @@ suite('Test Logger Functionality', () => {
           assert.instanceOf(info.error, Error, "Log error doesn't match expectations")
           assert.deepEqual(
             info.error.message,
-            `REPORTER TIMEOUT: Reporter "${reporter2Instance.Name}" didn't response within "${
-              reporter2Instance.TimeOut
+            `REPORTER TIMEOUT: Reporter "${newConfig.reporters[1].name}" didn't response within "${
+              newConfig.reporters[1].timeOut
             }" miliseconds. `,
             "Log errormsg doesn't match expectations",
           )
@@ -286,7 +283,7 @@ suite('Test Logger Functionality', () => {
             info.data,
             {
               error: LogObject.error,
-              timeoutTime: new reporter2.Instance().TimeOut,
+              timeoutTime: newConfig.reporters[1].timeOut,
             },
             "Log data doesn't match expectations",
           )
@@ -304,11 +301,10 @@ suite('Test Logger Functionality', () => {
         newConfig.reporters = [new reporter1.Instance(), new reporter2.Instance()]
 
         LoggerInstance = new Logger(Dependencies, newConfig)
-
-        LoggerInstance.Call(LogObject)
+        LoggerInstance.call(LogObject)
         setTimeout(() => {
-          assert.isTrue(reporter1.Stub.Log.calledTwice)
-          assert.isFalse(reporter2.Stub.Log.calledTwice)
+          assert.isTrue(reporter1.Stub.log.calledTwice)
+          assert.isFalse(reporter2.Stub.log.calledTwice)
           done()
         }, 20)
       })

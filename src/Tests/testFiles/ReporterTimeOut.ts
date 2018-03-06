@@ -2,23 +2,23 @@ module.exports = () => {
   const sinon = require('sinon')
 
   const Stub = {
-    Log: sinon.stub(),
+    log: sinon.stub(),
   }
 
   const Reset = () => {
-    Stub.Log.reset()
+    Stub.log.reset()
   }
 
   class Instance {
-    public readonly Name = 'Test Reporter'
-    public readonly TimeOut = 10
+    public readonly name = 'Test Timeout Reporter'
+    public readonly timeOut = 10
 
-    public Log(...args) {
+    public log(...args) {
       return new Promise((res, rej) => {
-        Stub.Log(args)
+        Stub.log(args)
         setTimeout(() => {
           res('PROMISE GELUKT')
-        },         5000)
+        }, 5000)
       })
     }
   }

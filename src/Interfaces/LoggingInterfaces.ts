@@ -1,6 +1,6 @@
-import { EventEmitter } from 'events'
-import { Joi } from 'joi'
-import { LoDashStatic } from 'lodash'
+import {EventEmitter} from 'events'
+import {Joi} from 'joi'
+import {LoDashStatic} from 'lodash'
 
 export enum LogLevels {
   'emerg',
@@ -29,7 +29,7 @@ export interface LoggingDependencies {
   _: LoDashStatic
 }
 
-export type LoggerInstance = (msg: string | Error, data?: { [key: string]: any }, ...args: any[]) => void // tslint:disable-line:no-any
+export type LoggerInstance = (msg: string | Error, data?: {[key: string]: any}, ...args: any[]) => void // tslint:disable-line:no-any
 
 export type LoggingHandlerInterface = (Dependecies: LoggingDependencies, Config: LoggingConfig) => LoggingHandlerResults
 
@@ -47,23 +47,23 @@ export interface LoggingHandlerResults {
 
 export interface LoggerInterface {
   LogLevels: string[]
-  Call(LogObject: LogObjectInterface): void
+  call(LogObject: LogObjectInterface): void
 }
 
 export interface ReportersInterface {
-  Name: string
-  TimeOut?: number
-  Log(LogObject: LogObjectInterface): Promise<void>
+  name: string
+  timeOut?: number
+  log(LogObject: LogObjectInterface): Promise<void>
 }
 
 export interface ReportersClasss {
-  new (Options: { [key: string]: any }): ReportersInterface // tslint:disable-line:no-any
+  new (Options: {[key: string]: any}): ReportersInterface // tslint:disable-line:no-any
 }
 
 export interface LogObjectInterface {
   level: LogLevels
   error: Error
-  data: { [key: string]: any } // tslint:disable-line:no-any
+  data: {[key: string]: any} // tslint:disable-line:no-any
   args: any[] // tslint:disable-line:no-any
   createdAt: Date
 }

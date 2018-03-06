@@ -53,7 +53,7 @@ const LogHandler: LoggingHandlerInterface = function(Dependencies, Config) {
             level: LoggerClass.LogLevels.indexOf(prop),
           }
           LogEmitter.emit('register', LogObject)
-          LoggerClass.Call(LogObject)
+          LoggerClass.call(LogObject)
         }
       },
       set(func) {

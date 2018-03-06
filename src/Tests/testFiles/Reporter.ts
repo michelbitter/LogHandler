@@ -2,21 +2,21 @@ module.exports = () => {
   const sinon = require('sinon')
 
   const Stub = {
-    Log: sinon.stub(),
+    log: sinon.stub(),
   }
 
   const Reset = () => {
-    Stub.Log.reset()
+    Stub.log.reset()
   }
 
   class Instance {
-    public readonly Name = 'Test Reporter'
+    public readonly name = 'Test Reporter'
 
     constructor() {}
 
-    public async Log(...args) {
-      Stub.Log(args)
-      return
+    public async log(...args) {
+      Stub.log(args)
+      return 'normal'
     }
   }
 
