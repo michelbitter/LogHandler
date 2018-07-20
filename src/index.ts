@@ -1,13 +1,7 @@
-import * as _ from 'lodash'
-import { LogHandlerInterface, LoggingDependencies } from './Interfaces/LoggingInterfaces'
-
-const LogHandler: LogHandlerInterface = function(Config) {
-  return require('./LoggingHandler')(
-    {
-      Joi: require('joi'),
-      Logger: require('./Logger'),
-      _: require('lodash'),
-    },
-    Config,
-  )
+import {logHandler as LogHandlerClass} from './logHandler'
+import {Config} from './interfaces'
+const logHandler = function(config: Config) {
+  return LogHandlerClass.factory(config).getLogHandler()
 }
+
+export default logHandler

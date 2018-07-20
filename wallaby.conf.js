@@ -2,10 +2,10 @@ module.exports = function(w) {
   return {
     files: [
       './package.json',
-      { pattern: 'src/**/**.ts', instrument: true },
-      { pattern: 'src/Tests/**/**.test.ts', ignore: true },
+      {pattern: 'src/**/**.ts', instrument: true},
+      {pattern: 'src/tests/**/**.test.ts', ignore: true},
     ],
-    tests: ['src/Tests/**/*.test.ts'],
+    tests: ['src/tests/**/*.test.ts'],
     env: {
       type: 'node',
       NODE_ENV: 'testing',
@@ -13,10 +13,10 @@ module.exports = function(w) {
     testFramework: 'mocha',
     debug: true,
     setup: function(wallaby) {
-      var mocha = wallaby.testFramework;
-      mocha.ui('tdd');
+      var mocha = wallaby.testFramework
+      mocha.ui('tdd')
     },
     localProjectDir: __dirname,
-    filesWithNoCoverageCalculated: ['src/Tests/testFiles/**/**.ts'],
-  };
-};
+    filesWithNoCoverageCalculated: ['src/tests/testFiles/**/**.ts'],
+  }
+}

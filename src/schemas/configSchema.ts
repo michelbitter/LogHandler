@@ -1,7 +1,8 @@
 import {Schema} from 'joi'
+import {LogLevelsKeys} from '../interfaces'
 const joi = require('joi')
 
-const ConfigSchema: Schema = joi
+export const configSchema: Schema = joi
   .object()
   .required()
   .keys({
@@ -19,10 +20,8 @@ const ConfigSchema: Schema = joi
       .object()
       .keys({
         minimalLevel2Report: joi
-          .number()
-          .integer()
-          .min(0)
-          .max(7)
+          .string()
+          .valid(LogLevelsKeys)
           .optional(),
         silent: joi
           .boolean()
@@ -33,4 +32,4 @@ const ConfigSchema: Schema = joi
   })
   .required()
 
-module.exports = ConfigSchema
+export default configSchema

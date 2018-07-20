@@ -5,13 +5,10 @@
     "tslint-config-prettier"
   ],
   "rules": {
-    "variable-name":[true, "allow-pascal-case", "allow-leading-underscore"],
-    "import-name": false
   },
   "linterOptions": {
     "exclude": [
-      "node_modules/**/*",
-      "src/customLib/*/node_modules/**/*"
+      "node_modules/**/*"
     ]
   }
 }

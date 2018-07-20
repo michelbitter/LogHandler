@@ -1,14 +1,14 @@
 {
+  "arrowParens": "avoid",
+  "bracketSpacing": false,
+  "insertPragma": false,
+  "jsxBracketSameLine": false,
+  "parser": "typescript",
   "printWidth": 120,
-  "tabWidth": 2,
-  "useTabs": false,
+  "requirePragma": false,
   "semi": false,
   "singleQuote": true,
+  "tabWidth": 2,
   "trailingComma": "all",
-  "bracketSpacing": false,
-  "arrowParens": "avoid",
-  "parser": "typescript",
-  "jsxBracketSameLine": false,
-  "insertPragma": false,
-  "requirePragma": false
+  "useTabs": false
 }
