@@ -1,7 +1,12 @@
 import {logHandler as LogHandlerClass} from './logHandler'
-import {Config} from './interfaces'
+import {Config, ReportersInterface, LogObjectInterface, LogLevels} from './interfaces'
+
 const logHandler = function(config: Config) {
   return LogHandlerClass.factory(config).getLogHandler()
 }
 
 export default logHandler
+export type ReportersInterface = ReportersInterface
+export type Config = Config
+export type LogObjectInterface = LogObjectInterface
+export type LogLevels = LogLevels

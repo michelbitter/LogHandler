@@ -93,10 +93,10 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/rimraf ./lib && ./node_modules/.bin/tsc",
+    "build": "npm run tsLint && npm run coverage && ./node_modules/.bin/rimraf ./lib && ./node_modules/.bin/tsc",
     "tsLint": "./node_modules/tslint/bin/tslint -c ./tslint.json --format stylish \"./src/**/*.ts{,x}\" || exit 0",
     "test": "NODE_ENV=testing ./node_modules/.bin/_mocha src/tests/**/**/**.test.ts --require ts-node/register --recursive --prof --ui tdd --throw-deprecation -R mocha-multi --reporter-options mocha-junit-reporter=-,spec=-",
     "coverage": "nyc npm test",
-    "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset && npm run tsLint && npm run coverage ) || exit 1\""
+    "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset &&  yarn build) || exit 1\""
   }
 }
