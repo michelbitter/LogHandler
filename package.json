@@ -89,7 +89,8 @@
     "tslint-config-airbnb": "^5.9.2",
     "tslint-config-prettier": "^1.13.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "snyk": "^1.89.0"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -98,9 +99,9 @@
     "build": "npm run tsLint && npm run coverage && ./node_modules/.bin/rimraf ./lib && ./node_modules/.bin/tsc",
     "tsLint": "./node_modules/tslint/bin/tslint -c ./tslint.json --format stylish \"./src/**/*.ts{,x}\" || exit 0",
     "deleteTestResults": "(rm -rf ./coverage & rm -rf ./test-results.xml)",
-    "test": "npm run deleteTestResults && NODE_ENV=testing ./node_modules/.bin/_mocha src/tests/**/**/**.test.ts --require ts-node/register --recursive --prof --ui tdd --throw-deprecation",
-    "coverage": "nyc npm test -R mocha-multi --reporter-options mocha-junit-reporter=-,spec=-",
-    "test-with-coverage": "nyc --reporter=lcovonly npm test && cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage",
+    "test": "snyk test && NODE_ENV=testing ./node_modules/.bin/_mocha src/tests/**/**/**.test.ts --require ts-node/register --recursive --prof --ui tdd --throw-deprecation ",
+    "coverage": "npm run deleteTestResults && nyc npm test -R mocha-multi --reporter-options mocha-junit-reporter=-,spec=-",
+    "test-with-coverage": "npm run deleteTestResults && nyc --reporter=lcovonly npm test && cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage",
     "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset &&  yarn build) || exit 1\""
   }
 }
