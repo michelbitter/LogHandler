@@ -65,4 +65,6 @@ desktop.ini
 #Dev environment
 .vscode
 
-
+#dependency Lockfiles
+yarn.lock
+package-lock.json
