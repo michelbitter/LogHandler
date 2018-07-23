@@ -8,11 +8,7 @@ before_install:
   - travis_retry npm install
 
 script:
-  - npm test
-
-matrix:
-  allow_failures:
-  - node_js: "10"
+  - npm run test-with-coverage
 
 notifications:
   email:

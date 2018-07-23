@@ -5,7 +5,7 @@ module.exports = {
   useTabs: false,
   tabWidth: 2,
   semi: false,
-  singleQuote: true,
+  singleQuote: false,
   bracketSpacing: true,
   arrowParens: 'avoid',
 }
