@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "classic",
+    "moduleResolution": "node",
     "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -20,10 +20,10 @@
     "pretty": true,
     "noEmitOnError": true,
     "rootDir": "src",
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "typeRoots": ["@CustomTypes", "node_modules/@types"]
   },
   "exclude": ["node_modules", "public"],
   "include": ["./test/**/*.d.ts", "./src/**/*.ts", "**/*.ts"],
-  "types": ["node", "mocha", "chai"],
-  "typeRoots": ["@CustomTypes", "node_modules/@types"]
+  "types": ["node", "mocha", "chai"]
 }

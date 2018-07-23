@@ -2,10 +2,10 @@
   "name": "loghandler",
   "version": "0.3.0",
   "description": "Fully tested and strongly typed flexible Log Handler for all NodeJS projects.",
-  "main": "lib/index",
-  "types": "lib/index",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "typescript": {
-    "definition": "lib/index"
+    "definition": "lib/index.d.ts"
   },
   "repository": "https://github.com/michelbitter/LogHandler",
   "author": "Michel Bitter <michel+opensource@michelbitter.nl>",
