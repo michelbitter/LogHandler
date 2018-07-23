@@ -8,7 +8,7 @@ before_install:
   - travis_retry npm install
 
 script:
-  - npm test
+  - npm run test-with-coverage
 
 matrix:
   allow_failures:
