@@ -1,11 +1,9 @@
 # LogHandler
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee5783244d8447a19c06681df1bd22fd)](https://app.codacy.com/app/michel_5/LogHandler?utm_source=github.com&utm_medium=referral&utm_content=michelbitter/LogHandler&utm_campaign=badger)
-
+![npm version](https://badge.fury.io/js/loghandler.svg)![npm](https://img.shields.io/npm/dm/loghandler.svg?style=flat)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1e8f0869660d4f67bfcf5aa482ae9f70)](https://www.codacy.com/app/michel_5/LogHandler?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michelbitter/LogHandler&amp;utm_campaign=Badge_Grade)
 
 A fully tested strongly typed (typescript), and modular log handler that gives you easy the possibility to send your applications log messages in a async way to every system you prefer. LogHandler can be used in every nodeJS project, no matter of typescript is on top of it.
 
-![npm version](https://badge.fury.io/js/loghandler.svg)![npm](https://img.shields.io/npm/dm/loghandler.svg?style=flat)
 
 ## How it works
 LogHandler uses a reporters to report log items to certain destinations like `console`, `syslog,` `rollbar`, `trackjs`. To make this plugin as modular as possible I didn't add any reporters into this plugin. Seperate reporters need to be installed or self developed before LogHandler is capable to report log items. Further down in this readme I provide you with a full lists of publicly available reporters. Beside that you can find some instructions about how to create your own reporter even in the bottom of this readme.
@@ -131,3 +129,4 @@ As far as I know there aren't any publicly available reporters jet. I'm happy to
 
 ## Contributers
 [Michel Bitter](https://github.com/michelbitter) *(author)*
+[Codacy Badger](https://github.com/codacy-badger) *(bot)*
