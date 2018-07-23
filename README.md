@@ -1,5 +1,8 @@
 # LogHandler
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee5783244d8447a19c06681df1bd22fd)](https://app.codacy.com/app/michel_5/LogHandler?utm_source=github.com&utm_medium=referral&utm_content=michelbitter/LogHandler&utm_campaign=badger)
+
+
 A fully tested strongly typed (typescript), and modular log handler that gives you easy the possibility to send your applications log messages in a async way to every system you prefer. LogHandler can be used in every nodeJS project, no matter of typescript is on top of it.
 
 ![npm version](https://badge.fury.io/js/loghandler.svg)![npm](https://img.shields.io/npm/dm/loghandler.svg?style=flat)
