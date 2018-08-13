@@ -120,7 +120,31 @@ Thirth you see that the reporters class requires an log method. This is the meth
 | args      | []     | An array of all other arguments that are given to LogHandler                                                                                              |
 | createdAt | Date   | The exact date when LogHandler received the logevent                                                                                                      |
 
+### How to enable a reporter
+Enabling a reporter that you downloaded or just created by yourself isn't hard. To add a reporter to the list of reporters that are used by loghandler can be easly done by adding the reporter to the list of reporters in the Loghandler options. Emample: 
+```
+import loghandler from 'loghandler'
+import example_reporter from 'example_reporter'
 
+const config = {
+  reporters: [
+    new example_reporter(),
+  ]
+  reporting: {
+    silent: false
+    minimalLevel2Report: 'debug'
+  }
+}
+
+const log = loghandler(config)
+
+
+try{
+  throw new Error("Something goes wrong!")
+}catch(err){
+  log.emerg(err)
+}
+```
 
 ### List of publicly available reporters
 
