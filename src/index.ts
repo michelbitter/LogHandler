@@ -5,6 +5,7 @@ import {
   LogObjectInterface,
   LogLevels,
   LogLevelsKeys as LogLevelsKeysList,
+  LogHandlerResults,
 } from './interfaces'
 
 const logHandler = function(config: Config) {
@@ -16,4 +17,5 @@ export type ReportersInterface = ReportersInterface
 export type Config = Config
 export type LogObjectInterface = LogObjectInterface
 export type LogLevels = LogLevels
+export type Log = LogHandlerResults
 export const logLevelsKeys = LogLevelsKeysList
