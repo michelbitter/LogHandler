@@ -17,5 +17,5 @@ export type ReportersInterface = ReportersInterface
 export type Config = Config
 export type LogObjectInterface = LogObjectInterface
 export type LogLevels = LogLevels
-export type Results = LogHandlerResults
+export type Log = LogHandlerResults
 export const logLevelsKeys = LogLevelsKeysList
