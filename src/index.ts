@@ -1,4 +1,4 @@
-import {logHandler as LogHandlerClass} from './logHandler'
+import {LogHandler as LogHandlerClass} from './logHandler'
 import {
   Config,
   ReportersInterface,

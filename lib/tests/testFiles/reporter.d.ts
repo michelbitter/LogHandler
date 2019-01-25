@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
 export declare class Instance {
-    readonly name: string;
+    readonly name = "Test Reporter";
     constructor();
     log(...args: any[]): Promise<string>;
 }

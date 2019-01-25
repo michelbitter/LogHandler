@@ -28,7 +28,7 @@ export class Logger {
       if (!config) {
         throw new Error('LogHandler.Logger: Config not available')
       }
-      if (deps.joi.validate(config, configSchema).error) {
+      if (deps.joi.validate(config, configSchema, {allowUnknown: true}).error) {
         throw new Error('LogHandler.Logger: Config not valid')
       }
     } else {

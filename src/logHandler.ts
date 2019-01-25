@@ -13,7 +13,7 @@ import configSchema from './schemas/configSchema'
 import dependenciesSchema from './schemas/dependenciesSchema'
 import logger from './logger'
 
-export class logHandler {
+export class LogHandler {
   public static factory(config: Config) {
     const eventEmitter = new events()
     return new this(
@@ -34,7 +34,7 @@ export class logHandler {
       deps.joi.validate(deps, dependenciesSchema)
     ) {
       if (!config) throw new Error('LogHandler: Config not available')
-      if (deps.joi.validate(config, configSchema).error) {
+      if (deps.joi.validate(config, configSchema, {allowUnknown: true}).error) {
         throw new Error('LogHandler: Config not valid')
       }
     } else {
@@ -81,4 +81,4 @@ export class logHandler {
   }
 }
 
-export default logHandler
+export default LogHandler

@@ -1,7 +1,7 @@
 import * as sinon from 'sinon';
 export declare class Instance {
-    readonly name: string;
-    readonly timeOut: number;
+    readonly name = "Test Timeout Reporter";
+    readonly timeOut = 5;
     constructor();
     log(...args: any[]): Promise<{}>;
 }
