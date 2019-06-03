@@ -23,8 +23,8 @@
     "lib"
   ],
   "dependencies": {
-    "joi": "^13.4.0",
-    "lodash": "^4.17.10"
+    "@hapi/joi": "^15.0.3",
+    "lodash": "^4.17.11"
   },
   "nyc": {
     "include": [

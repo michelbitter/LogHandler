@@ -3,7 +3,7 @@ export declare class Instance {
     readonly name = "Test Timeout Reporter";
     readonly timeOut = 5;
     constructor();
-    log(...args: any[]): Promise<{}>;
+    log(...args: any[]): Promise<unknown>;
 }
 declare const _default: {
     Instance: typeof Instance;
