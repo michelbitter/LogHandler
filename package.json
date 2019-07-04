@@ -24,7 +24,8 @@
   ],
   "dependencies": {
     "@hapi/joi": "^15.0.3",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "snyk": "^1.189.0"
   },
   "nyc": {
     "include": [
@@ -84,7 +85,6 @@
     "prettier-stylelint": "^0.4.2",
     "rimraf": "^2.6.2",
     "sinon": "^4.5.0",
-    "snyk": "^1.89.0",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.9.2",
@@ -102,6 +102,9 @@
     "test": "snyk test && NODE_ENV=testing ./node_modules/.bin/_mocha src/tests/**/**/**.test.ts --require ts-node/register --recursive --prof --ui tdd --throw-deprecation ",
     "coverage": "npm run deleteTestResults && nyc npm test -R mocha-multi --reporter-options mocha-junit-reporter=-,spec=-",
     "test-with-coverage": "npm run deleteTestResults && nyc --reporter=lcovonly npm test && cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage",
-    "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset &&  yarn build) || exit 1\""
-  }
+    "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset &&  yarn build) || exit 1\"",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
