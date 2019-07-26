@@ -19,7 +19,7 @@ suite('Test logger Functionality', () => {
     logEmitter: emitter,
   }
 
-  beforeEach(() => {
+  setup(() => {
     emitter = new events()
     deps = {
       _,
@@ -28,7 +28,7 @@ suite('Test logger Functionality', () => {
     }
   })
 
-  afterEach(() => {
+  teardown(() => {
     emitter.removeAllListeners()
     reporter.reset()
     reporterTimeOut.reset()
@@ -72,7 +72,7 @@ suite('Test logger Functionality', () => {
       level: logLevels.indexOf(LogLevels.warning),
     }
 
-    beforeEach(() => {
+    setup(() => {
       exampleLogObject = {
         args: [faker.lorem.slug(), {test: faker.lorem.slug()}],
         createdAt: new Date(),

@@ -17,7 +17,7 @@ suite('Test logHandler Functionality', () => {
     logEmitter: new events(),
   }
 
-  beforeEach(() => {
+  setup(() => {
     deps = {
       _,
       joi,
@@ -69,12 +69,12 @@ suite('Test logHandler Functionality', () => {
     let logHandlerClass = logHandler.factory(config)
     let eventEmitter = logHandlerClass.getEmitter()
 
-    beforeEach(() => {
+    setup(() => {
       logHandlerClass = new logHandler(deps, config)
       eventEmitter = logHandlerClass.getEmitter()
     })
 
-    afterEach(() => {
+    teardown(() => {
       logger.reset()
       eventEmitter.removeAllListeners()
     })
