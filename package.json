@@ -96,6 +96,7 @@
     "node": ">=8.0.0"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "build": "npm run tsLint && npm run coverage && ./node_modules/.bin/rimraf ./lib && ./node_modules/.bin/tsc",
     "tsLint": "./node_modules/tslint/bin/tslint -c ./tslint.json --format stylish \"./src/**/*.ts{,x}\" || exit 0",
     "deleteTestResults": "(rm -rf ./coverage & rm -rf ./test-results.xml)",

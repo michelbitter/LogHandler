@@ -23,7 +23,7 @@
     "preserveConstEnums": true,
     "typeRoots": ["node_modules/@types"]
   },
-  "exclude": ["./src/tests"],
+  "exclude": ["node_modules", "lib"],
   "include": [ "./src/**/*.ts"],
   "types": ["node", "mocha", "chai", "@hapi/joi"]
 }
