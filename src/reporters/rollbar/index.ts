@@ -6,18 +6,18 @@ export type RollbarReporterConfig = Rollbar.Configuration
 export class RollbarReporter implements ReportersInterface {
   public readonly name = 'Rollbar reporter'
   public readonly timeOut = 10000
-  private readonly Rollbar: Rollbar
+  private readonly rollbar: Rollbar
   private readonly settings: RollbarReporterConfig
 
   public constructor(settings: RollbarReporterConfig) {
     this.settings = settings
-    this.Rollbar = new Rollbar(settings)
+    this.rollbar = new Rollbar(settings)
   }
 
   public async log(obj: LogObjectInterface) {
     await new Promise((resolve, reject) => {
       if (this.settings.enabled && this.has2Ignore(obj.level, this.settings.reportLevel)) {
-        const lvl = this.GetRollBarLvl(obj.level)
+        const lvl = this.getRollBarLvl(obj.level)
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let request: null | {readonly [key: string]: any} = null
@@ -54,9 +54,9 @@ export class RollbarReporter implements ReportersInterface {
         const callback = (err: Error | undefined) => (err ? reject(err) : resolve())
 
         if (request) {
-          this.Rollbar[lvl](obj.error, request, custom, callback)
+          this.rollbar[lvl](obj.error, request, custom, callback)
         } else {
-          this.Rollbar[lvl](obj.error, custom, callback)
+          this.rollbar[lvl](obj.error, custom, callback)
         }
       } else {
         resolve()
@@ -64,7 +64,7 @@ export class RollbarReporter implements ReportersInterface {
     })
   }
 
-  private GetRollBarLvl(lvl: LogObjectInterface['level']): Rollbar.Level {
+  private getRollBarLvl(lvl: LogObjectInterface['level']): Rollbar.Level {
     switch (lvl) {
       case 0:
       case 1:
