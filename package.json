@@ -57,10 +57,7 @@
       ".ts"
     ]
   },
-  "typings": [
-    "./node_modules/@types",
-    "./@typesCustom"
-  ],
+  "typings": "./node_modules/@types",
   "quokka": {
     "env": "dev",
     "ts": {
