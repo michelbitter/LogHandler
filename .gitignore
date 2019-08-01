@@ -68,3 +68,6 @@ desktop.ini
 #dependency Lockfiles
 yarn.lock
 package-lock.json
+
+# compiled files
+lib/
