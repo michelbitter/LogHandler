@@ -13,8 +13,8 @@ export class Instance {
   public readonly timeOut = 5
   constructor() {}
 
-  public log(...args) {
-    return new Promise((res, rej) => {
+  public log() {
+    return new Promise((res) => {
       setTimeout(() => {
         res('timeOut failed')
       }, 5000)

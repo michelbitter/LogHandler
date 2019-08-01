@@ -1,5 +1,5 @@
 import * as events from 'events'
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 import * as lodash from 'lodash'
 import {Logger} from './logger'
 import {strEnumHelper} from './helpers/strEnumHelper'

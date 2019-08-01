@@ -1,5 +1,5 @@
-import {Schema} from 'joi'
-const joi = require('joi')
+import {Schema} from '@hapi/joi'
+const joi = require('@hapi/joi')
 
 export const dependenciesSchema: Schema = joi
   .object()

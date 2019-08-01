@@ -1,6 +1,6 @@
-import {Schema} from 'joi'
+import {Schema} from '@hapi/joi'
 import {LogLevelsKeys} from '../interfaces'
-const joi = require('joi')
+const joi = require('@hapi/joi')
 
 export const configSchema: Schema = joi
   .object()

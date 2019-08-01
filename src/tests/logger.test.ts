@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import * as joi from 'joi'
+import * as joi from '@hapi/joi'
 import * as faker from 'faker'
 import * as _ from 'lodash'
 import * as events from 'events'
@@ -106,7 +106,7 @@ suite('Test logger Functionality', () => {
       })
 
       test('does report when silent is on true', done => {
-        emitter.on('log', data => {
+        emitter.on('log', () => {
           done()
         })
         const loggerClass = new logger(deps, {reporters: [], reporting: {silent: false}})
@@ -115,7 +115,7 @@ suite('Test logger Functionality', () => {
       })
 
       test("doesn't report when silent is on true", done => {
-        emitter.on('log', data => {
+        emitter.on('log', () => {
           assert.fail('log item is reported')
         })
         const loggerClass = new logger(deps, {reporters: [], reporting: {silent: true}})
@@ -124,7 +124,7 @@ suite('Test logger Functionality', () => {
       })
 
       test("doesn't report when minimalLevel2Report is lower than log item", done => {
-        emitter.on('log', data => {
+        emitter.on('log', () => {
           assert.fail('log item is reported')
         })
         const loggerClass = new logger(deps, {reporters: [], reporting: {minimalLevel2Report: LogLevels.crit}})
@@ -133,7 +133,7 @@ suite('Test logger Functionality', () => {
       })
 
       test('does report when minimalLevel2Report is lower than log item', done => {
-        emitter.on('log', data => {
+        emitter.on('log', () => {
           done()
         })
         const loggerClass = new logger(deps, {reporters: [], reporting: {minimalLevel2Report: LogLevels.debug}})
@@ -143,7 +143,7 @@ suite('Test logger Functionality', () => {
       })
 
       test('does report when minimalLevel2Report is same level as log item', done => {
-        emitter.on('log', data => {
+        emitter.on('log', () => {
           done()
         })
         const loggerClass = new logger(deps, {reporters: [], reporting: {minimalLevel2Report: LogLevels.warning}})

@@ -13,7 +13,7 @@ export class Instance {
   public readonly timeOut = 5
   constructor() {}
 
-  public log(...args) {
+  public log() {
     throw new Error('something terible goes wrong!')
   }
 }

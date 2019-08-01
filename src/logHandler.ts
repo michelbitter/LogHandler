@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import * as events from 'events'
-import * as joi from 'joi'
+import * as joi from '@hapi/joi'
 import {
   LogObjectInterface,
   LogHandlerDependencies,
@@ -27,7 +27,7 @@ export class LogHandler {
     )
   }
 
-  constructor(private deps: LogHandlerDependencies, private config: Config) {
+  constructor(private deps: LogHandlerDependencies, config: Config) {
     if (
       typeof deps.joi === 'object' &&
       typeof deps.joi.validate === 'function' &&

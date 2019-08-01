@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import * as faker from 'faker'
-import * as joi from 'joi'
+import * as joi from '@hapi/joi'
 import * as _ from 'lodash'
 import * as events from 'events'
 import logHandler from '../logHandler'
@@ -100,7 +100,6 @@ suite('Test logHandler Functionality', () => {
     })
 
     test('report functions generates errorObj as expected', () => {
-      const reportFunctionSchema = joi.func().minArity(1)
       const output = logHandlerClass.getLogHandler()
 
       logLevels.forEach(lvl => {

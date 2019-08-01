@@ -9,7 +9,7 @@ const reset = function() {
 }
 
 const instance = class {
-  public call(...args) {
+  public call(...args: any[]) {
     mocks.call(args)
     return
   }

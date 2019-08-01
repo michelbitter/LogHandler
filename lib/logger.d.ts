@@ -5,7 +5,7 @@ export declare class Logger {
     private deps;
     private config;
     private readonly TIMEOUT;
-    static factory(config: any, eventEmitter?: events): Logger;
+    static factory(config: Config, eventEmitter?: events): Logger;
     constructor(deps: Dependencies, config: Config);
     call(log: LogObjectInterface): void;
     private timer;

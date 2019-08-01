@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import * as events from 'events'
-import * as joi from 'joi'
+import * as joi from '@hapi/joi'
 import {Config, LogObjectInterface, Dependencies, LogLevelsKeys} from './interfaces'
 import configSchema from './schemas/configSchema'
 import dependenciesSchema from './schemas/dependenciesSchema'
@@ -8,7 +8,7 @@ import dependenciesSchema from './schemas/dependenciesSchema'
 export class Logger {
   private readonly TIMEOUT = Symbol('TIMEOUT')
 
-  public static factory(config, eventEmitter = new events()) {
+  public static factory(config: Config, eventEmitter = new events()) {
     return new this(
       {
         _,
@@ -46,7 +46,8 @@ export class Logger {
       this.deps.logEmitter.emit('log', log)
 
       const activeReportesList: Promise<void>[] = []
-      this.config.reporters.forEach((reporter, index) => {
+      this.config.reporters.forEach((...args) => {
+        const index = args[1]
         activeReportesList.push(this.report(log, index))
       })
 

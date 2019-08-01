@@ -13,7 +13,7 @@ export class Instance {
 
   constructor() {}
 
-  public async log(...args) {
+  public async log(...args: any[]) {
     stub.log(args)
     return 'normal'
   }
