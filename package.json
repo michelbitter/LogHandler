@@ -23,12 +23,9 @@
     "lib"
   ],
   "dependencies": {
-    "@hapi/joi": "^15.1.0",
-    "@types/color": "^3.0.0",
-    "@types/hapi__joi": "^15.0.3",
-    "colors": "^1.3.3",
-    "lodash": "4.17.15",
-    "rollbar": "^2.10.0"
+    "@hapi/joi": "15.1.0",
+    "colors": "1.3.3",
+    "lodash": "4.17.15"
   },
   "nyc": {
     "include": [
@@ -64,6 +61,7 @@
     }
   },
   "devDependencies": {
+    "@types/hapi__joi": "^15.0.3",
     "@types/chai": "4.1.7",
     "@types/faker": "4.1.5",
     "@types/lodash": "4.14.136",
