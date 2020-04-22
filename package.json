@@ -23,6 +23,8 @@
     "lib"
   ],
   "dependencies": {
+    "@types/hapi__joi": "16.0.12",
+    "@types/lodash": "4.14.150",
     "@hapi/joi": "17.1.1",
     "colors": "1.4.0",
     "lodash": "4.17.15"
@@ -61,10 +63,8 @@
     }
   },
   "devDependencies": {
-    "@types/hapi__joi": "^16.0.12",
     "@types/chai": "4.2.11",
     "@types/faker": "4.1.11",
-    "@types/lodash": "4.14.150",
     "@types/mocha": "7.0.2",
     "@types/node": "13.13.2",
     "@types/sinon": "9.0.0",
