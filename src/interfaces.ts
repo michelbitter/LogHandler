@@ -14,7 +14,7 @@ export interface Config {
 
 export interface Dependencies {
   readonly joi: typeof Joi
-  readonly logEmitter: events
+  readonly logEmitter: events.EventEmitter
   readonly _: typeof lodash
 }
 

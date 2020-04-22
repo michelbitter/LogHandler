@@ -2,7 +2,7 @@ import * as chai from 'chai'
 import * as joi from '@hapi/joi'
 import * as faker from 'faker'
 import * as _ from 'lodash'
-import * as events from 'events'
+import {EventEmitter} from 'events'
 import reporter from './testFiles/reporter'
 import reporterTimeOut from './testFiles/reporterTimeOut'
 import reporterReject from './testFiles/reporterReject'
@@ -12,7 +12,7 @@ import logger from '../logger'
 const assert = chai.assert
 suite('Test logger Functionality', () => {
   const logLevels: LogLevels[] = ['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug']
-  let emitter = new events()
+  let emitter = new EventEmitter()
   let deps: Dependencies = {
     _,
     joi,
@@ -20,7 +20,7 @@ suite('Test logger Functionality', () => {
   }
 
   setup(() => {
-    emitter = new events()
+    emitter = new EventEmitter()
     deps = {
       _,
       joi,
@@ -172,9 +172,7 @@ suite('Test logger Functionality', () => {
           i += 1
           if (
             data.error.message ===
-            `REPORTER TIMEOUT: Reporter "${timeOutReporter.name}" didn\'t response within "${
-              timeOutReporter.timeOut
-            }" miliseconds.`
+            `REPORTER TIMEOUT: Reporter "${timeOutReporter.name}" didn\'t response within "${timeOutReporter.timeOut}" miliseconds.`
           ) {
             done()
           } else if (i > 1) {

@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import * as events from 'events'
+import {EventEmitter} from 'events'
 import * as joi from '@hapi/joi'
 import {
   LogObjectInterface,
@@ -15,7 +15,7 @@ import logger from './logger'
 
 export class LogHandler {
   public static factory(config: Config) {
-    const eventEmitter = new events()
+    const eventEmitter = new EventEmitter()
     return new this(
       {
         _,
@@ -28,13 +28,9 @@ export class LogHandler {
   }
 
   constructor(private deps: LogHandlerDependencies, config: Config) {
-    if (
-      typeof deps.joi === 'object' &&
-      typeof deps.joi.validate === 'function' &&
-      deps.joi.validate(deps, dependenciesSchema)
-    ) {
+    if (typeof deps.joi === 'object' && dependenciesSchema.validate(deps)) {
       if (!config) throw new Error('LogHandler: Config not available')
-      if (deps.joi.validate(config, configSchema, {allowUnknown: true}).error) {
+      if (configSchema.validate(config, {allowUnknown: true}).error) {
         throw new Error('LogHandler: Config not valid')
       }
     } else {

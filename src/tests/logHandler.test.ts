@@ -2,7 +2,7 @@ import * as chai from 'chai'
 import * as faker from 'faker'
 import * as joi from '@hapi/joi'
 import * as _ from 'lodash'
-import * as events from 'events'
+import {EventEmitter} from 'events'
 import logHandler from '../logHandler'
 import {Config, LogLevels, LogLevelsKeys, LogHandlerDependencies, LogObjectInterface} from '../interfaces'
 import logger from './testFiles/logger'
@@ -14,7 +14,7 @@ suite('Test logHandler Functionality', () => {
     _,
     joi,
     logger: new logger.instance() as Logger,
-    logEmitter: new events(),
+    logEmitter: new EventEmitter(),
   }
 
   setup(() => {
@@ -22,7 +22,7 @@ suite('Test logHandler Functionality', () => {
       _,
       joi,
       logger: new logger.instance() as Logger,
-      logEmitter: new events(),
+      logEmitter: new EventEmitter(),
     }
   })
 
@@ -58,7 +58,7 @@ suite('Test logHandler Functionality', () => {
       const config: Config = {reporters: []}
       const logHandlerClass = logHandler.factory(config)
       const emitter = logHandlerClass.getEmitter()
-      assert.instanceOf(emitter, events)
+      assert.instanceOf(emitter, EventEmitter)
     })
   })
 
@@ -115,7 +115,7 @@ suite('Test logHandler Functionality', () => {
         const errorObjSchema = joi.object({
           args: joi
             .array()
-            .items(joi.alternatives().try([joi.string().valid([arg1]), joi.object({test: joi.string().valid(arg2)})]))
+            .items(joi.alternatives().try(joi.string().valid(arg1), joi.object({test: joi.string().valid(arg2)})))
             .length(2),
           createdAt: joi.date(),
           data: joi.object({
@@ -154,7 +154,7 @@ suite('Test logHandler Functionality', () => {
       const errorObjSchema = joi.object({
         args: joi
           .array()
-          .items(joi.alternatives().try([joi.string().valid([arg1]), joi.object({test: joi.string().valid(arg2)})]))
+          .items(joi.alternatives().try(joi.string().valid(arg1), joi.object({test: joi.string().valid(arg2)})))
           .length(2),
         createdAt: joi.date(),
         data: joi.object({

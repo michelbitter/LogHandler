@@ -21,12 +21,9 @@ export const configSchema: Schema = joi
       .keys({
         minimalLevel2Report: joi
           .string()
-          .valid(LogLevelsKeys)
+          .valid(...LogLevelsKeys)
           .optional(),
-        silent: joi
-          .boolean()
-          .optional()
-          .default(false),
+        silent: joi.boolean().optional().default(false),
       })
       .optional(),
   })
