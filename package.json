@@ -25,7 +25,8 @@
   "dependencies": {
     "@hapi/joi": "17.1.1",
     "colors": "1.4.0",
-    "lodash": "4.17.15"
+    "lodash": "4.17.15",
+    "snyk": "^1.316.1"
   },
   "nyc": {
     "include": [
@@ -81,7 +82,6 @@
     "prettier-stylelint": "0.4.2",
     "rimraf": "3.0.2",
     "sinon": "9.0.2",
-    "snyk": "1.307.0",
     "ts-node": "8.9.0",
     "tslint": "6.1.1",
     "tslint-config-airbnb": "5.11.2",
@@ -93,13 +93,15 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublish": "npm run snyk-protect && npm run build",
     "build": "npm run tsLint && npm run coverage && ./node_modules/.bin/rimraf ./lib && ./node_modules/.bin/tsc",
     "tsLint": "./node_modules/tslint/bin/tslint -c ./tslint.json --format stylish \"./src/**/*.ts{,x}\" || exit 0",
     "deleteTestResults": "(rm -rf ./coverage & rm -rf ./test-results.xml)",
     "test": "snyk test && NODE_ENV=testing ./node_modules/.bin/_mocha src/tests/**/**/**.test.ts --require ts-node/register --recursive --prof --ui tdd --throw-deprecation ",
     "coverage": "npm run deleteTestResults && nyc npm test -R mocha-multi --reporter-options mocha-junit-reporter=-,spec=-",
     "test-with-coverage": "npm run deleteTestResults && nyc --reporter=lcovonly npm test && cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage",
-    "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset &&  yarn build) || exit 1\""
-  }
+    "dev": "./node_modules/nodemon/bin/nodemon.js --config ./.nodemoncfg -x \"(reset &&  yarn build) || exit 1\"",
+    "snyk-protect": "snyk protect"
+  },
+  "snyk": true
 }
