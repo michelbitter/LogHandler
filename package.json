@@ -81,7 +81,7 @@
     "prettier-stylelint": "0.4.2",
     "rimraf": "3.0.2",
     "sinon": "9.0.2",
-    "snyk": "1.319.1",
+    "snyk": "1.319.2",
     "ts-node": "8.10.1",
     "tslint": "6.1.2",
     "tslint-config-airbnb": "5.11.2",
