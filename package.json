@@ -27,7 +27,7 @@
     "@types/hapi__joi": "17.1.7",
     "@types/lodash": "4.14.175",
     "colors": "1.4.0",
-    "lodash": "4.17.21"
+    "lodash": "4.17.23"
   },
   "nyc": {
     "include": [
